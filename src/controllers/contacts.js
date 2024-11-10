@@ -1,24 +1,24 @@
-// import { getAllContacts, getContactById } from '../services/contacts.js';
 import * as contactServices from '../services/contacts.js';
 
 import createHttpError from 'http-errors';
-// import { contactAddSchema } from '../validation/contacts.js';
 import { parsePaginationParams } from '../utils/parsePaginationParams.js';
 import { parseSortParams } from '../utils/parseSortParams.js';
 import { sortByList } from '../db/models/contact.js';
+import { parseContactFilterParams } from '../utils/parseContactFilterParams.js';
 
 export const getAllContactsController = async (req, res, next) => {
   try {
     const { page, perPage } = parsePaginationParams(req.query);
     const { sortBy, sortOrder } = parseSortParams(req.query, sortByList);
-    console.log(sortBy);
-    console.log(sortOrder);
+    const filter = parseContactFilterParams(req.query);
+    console.log(filter);
 
     const contacts = await contactServices.getAllContacts({
       page,
       perPage,
       sortBy,
       sortOrder,
+      filter,
     });
 
     res.json({
@@ -27,10 +27,6 @@ export const getAllContactsController = async (req, res, next) => {
       data: contacts,
     });
   } catch (error) {
-    // res.status(500).json({
-    //   status: 500,
-    //   message: error.message,
-    // });
     next(error);
   }
 };
@@ -50,10 +46,6 @@ export const getContactByIdController = async (req, res, next) => {
       data: contact,
     });
   } catch (error) {
-    // res.status(500).json({
-    //   status: 500,
-    //   message: error.message,
-    // });
     next(error);
   }
 };
