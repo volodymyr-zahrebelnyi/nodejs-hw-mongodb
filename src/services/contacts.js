@@ -9,22 +9,39 @@ export const getAllContacts = async ({
   filter = {},
 }) => {
   const skip = (page - 1) * perPage;
-  const query = await ContactsCollection.find(filter)
-    .skip(skip)
-    .limit(perPage)
-    .sort({ [sortBy]: sortOrder });
+  // const query = await ContactsCollection.find(filter)
+  //   .skip(skip)
+  //   .limit(perPage)
+  //   .sort({ [sortBy]: sortOrder });
+  const query = ContactsCollection.find();
   if (filter.type) {
     query.where('contactType').equals(filter.type);
   }
   if (filter.favourite) {
     query.where('isFavourite').equals(filter.favourite);
   }
-  const data = await query;
+  // const data = await query;
 
-  const totalItems = await ContactsCollection.find(filter)
+  // const totalItems = await ContactsCollection.find(filter)
+  //   .merge(query)
+  //   .countDocuments();
+  // const paginationData = calculatePaginationData({ totalItems, page, perPage });
+
+  // return {
+  //   data,
+  //   ...paginationData,
+  // };
+  const totalItems = await ContactsCollection.find()
     .merge(query)
     .countDocuments();
-  const paginationData = calculatePaginationData({ totalItems, page, perPage });
+
+  const data = await query
+    .skip(skip)
+    .limit(perPage)
+    .sort({ [sortBy]: sortOrder })
+    .exec();
+
+  const paginationData = calculatePaginationData(totalItems, perPage, page);
 
   return {
     data,
