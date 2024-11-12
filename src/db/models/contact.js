@@ -37,7 +37,7 @@ contactsSchema.post('save', handleSaveError);
 
 contactsSchema.pre('findOneAndUpdate', setUpdateSettings);
 
-contactsSchema.post('findOneAndUpdate', setUpdateSettings);
+contactsSchema.post('findOneAndUpdate', handleSaveError);
 
 export const sortByList = [
   'name',
