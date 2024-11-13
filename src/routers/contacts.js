@@ -10,7 +10,10 @@ import * as contactControllers from '../controllers/contacts.js';
 import ctrlWrapper from '../utils/ctrlWrapper.js';
 import validateBody from '../utils/validateBody.js';
 
-import { contactAddSchema } from '../validation/contacts.js';
+import {
+  contactAddSchema,
+  contactUpdateSchema,
+} from '../validation/contacts.js';
 import { isValidId } from '../middlewares/isValidId.js';
 
 const contactsRouter = Router();
@@ -35,12 +38,14 @@ contactsRouter.post(
 contactsRouter.put(
   '/:id',
   isValidId,
+  validateBody(contactAddSchema),
   ctrlWrapper(contactControllers.upsertContactController),
 );
 
 contactsRouter.patch(
   '/:id',
   isValidId,
+  validateBody(contactUpdateSchema),
   ctrlWrapper(contactControllers.patchContactController),
 );
 
