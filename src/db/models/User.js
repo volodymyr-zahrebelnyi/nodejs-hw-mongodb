@@ -5,7 +5,7 @@ import { emailRegexp } from '../../constants/users.js';
 
 const userSchema = new Schema(
   {
-    username: {
+    name: {
       type: String,
       required: true,
     },
@@ -25,6 +25,12 @@ const userSchema = new Schema(
     timestamps: true,
   },
 );
+
+userSchema.methods.toJSON = function () {
+  const obj = this.toObject();
+  delete obj.password;
+  return obj;
+};
 
 userSchema.post('save', handleSaveError);
 

@@ -1,10 +1,5 @@
 import { Router } from 'express';
 
-// import {
-//   getAllContactsController,
-//   getContactByIdController,
-// } from '../controllers/contacts.js';
-
 import * as contactControllers from '../controllers/contacts.js';
 
 import ctrlWrapper from '../utils/ctrlWrapper.js';
