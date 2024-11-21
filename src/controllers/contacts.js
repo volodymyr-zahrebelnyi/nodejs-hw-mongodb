@@ -86,6 +86,7 @@ export const upsertContactController = async (req, res) => {
 export const patchContactController = async (req, res) => {
   const { id: _id } = req.params;
   const { _id: userId } = req.user;
+  console.log(userId);
   const result = await contactServices.updateContact({
     _id,
     userId,
