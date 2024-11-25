@@ -55,21 +55,9 @@ export const getContactByIdController = async (req, res, next) => {
   }
 };
 
-// export const addContactController = async (req, res) => {
-//   const { _id: userId } = req.user;
-//   const contact = await contactServices.addContact({ ...req.body, userId });
-
-//   res.status(201).json({
-//     status: 201,
-//     message: 'Successfully created a contact!',
-//     data: contact,
-//   });
-// };
-
 export const addContactController = async (req, res) => {
   const { _id: userId } = req.user;
   const photo = req.file;
-  console.log(photo);
 
   let photoUrl;
 
@@ -83,13 +71,14 @@ export const addContactController = async (req, res) => {
 
   const contact = await contactServices.addContact({
     userId,
-    payload: { ...req.body, photo: photoUrl },
+    ...req.body,
+    photo: photoUrl,
   });
 
   res.status(201).json({
     status: 201,
     message: 'Successfully created a contact!',
-    data: contact.data,
+    data: contact,
   });
 };
 
@@ -131,7 +120,6 @@ export const patchContactController = async (req, res) => {
   const result = await contactServices.updateContact({
     _id,
     userId,
-    // payload: req.body,
     payload: { ...req.body, photo: photoUrl },
   });
 
