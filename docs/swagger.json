@@ -81,7 +81,15 @@
           },
           {
             "in": "query",
-            "name": "contactType",
+            "name": "favourite",
+            "schema": {
+              "type": "boolean",
+              "example": true
+            }
+          },
+          {
+            "in": "query",
+            "name": "type",
             "schema": {
               "type": "string",
               "enum": [
@@ -191,8 +199,7 @@
                 "required": [
                   "name",
                   "phoneNumber",
-                  "contactType",
-                  "userId"
+                  "contactType"
                 ],
                 "properties": {
                   "name": {
@@ -213,11 +220,6 @@
                       "home",
                       "personal"
                     ]
-                  },
-                  "userId": {
-                    "description": "Contacts's parent id",
-                    "type": "string",
-                    "example": "6741fc5faaeb824a58f4b982"
                   },
                   "email": {
                     "description": "Contacts's email. Should be between 3 and 20",
@@ -360,6 +362,51 @@
             }
           }
         ],
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "description": "Contact's name",
+                    "type": "string",
+                    "example": "John Doe"
+                  },
+                  "phoneNumber": {
+                    "description": "Contacts's phone number",
+                    "type": "string",
+                    "example": "+380123456789"
+                  },
+                  "contactType": {
+                    "description": "Contacts's type",
+                    "type": "string",
+                    "enum": [
+                      "work",
+                      "home",
+                      "personal"
+                    ]
+                  },
+                  "email": {
+                    "description": "Contacts's email. Should be between 3 and 20",
+                    "type": "string",
+                    "example": "jon.doe@mail.com"
+                  },
+                  "isFavourite": {
+                    "description": "Is the contact a favorite",
+                    "type": "boolean",
+                    "example": false
+                  },
+                  "photo": {
+                    "description": "Contact's photo",
+                    "type": "string",
+                    "format": "binary"
+                  }
+                }
+              }
+            }
+          }
+        },
         "responses": {
           "200": {
             "description": "Patched a contact by id",
